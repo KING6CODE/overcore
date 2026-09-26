@@ -10,6 +10,7 @@ captures/
 android/.gradle/
 android/local.properties
 android/keystore.properties
+android/keystores/
 android/app/build/
 outputs/*.jks
 outputs/*signing*.txt
