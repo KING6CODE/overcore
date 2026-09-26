@@ -49,7 +49,8 @@ button:active{transform:scale(.975)}
 .sItem .slk svg{width:10px;height:10px;filter:none}
 .sItem .sbdg{position:absolute;top:-2px;right:2px;background:var(--amber);color:var(--amberD);font:700 9px 'Rajdhani';padding:0 4px;border-radius:2px;box-shadow:0 0 8px rgba(255,179,71,.7)}
 .sqR{position:absolute;right:10px;top:6px;display:flex;flex-direction:column;gap:6px;z-index:2}
-.sq{width:38px;height:38px;border:1px solid #55648F;background:linear-gradient(180deg,rgba(18,25,50,.85),rgba(10,15,34,.9));display:flex;align-items:center;justify-content:center;position:relative;border-radius:4px;transition:box-shadow .15s,border-color .15s;overflow:visible}
+/* [FIX] .sq passe à 44×44px (norme tactile Apple/Google) */
+.sq{width:44px;height:44px;border:1px solid #55648F;background:linear-gradient(180deg,rgba(18,25,50,.85),rgba(10,15,34,.9));display:flex;align-items:center;justify-content:center;position:relative;border-radius:4px;transition:box-shadow .15s,border-color .15s;overflow:visible}
 .sq:active{border-color:var(--amber);box-shadow:0 0 14px rgba(255,179,71,.4)}
 .sq .bdg{position:absolute;top:-6px;left:-6px;background:#FF4040;color:#fff;font:700 10px 'Rajdhani';min-width:17px;height:17px;display:flex;align-items:center;justify-content:center;border:2px solid #080C1C;border-radius:9px;box-shadow:0 0 8px rgba(255,64,64,.8);z-index:6}
 .sq .rdot{position:absolute;top:-2px;right:-2px;width:10px;height:10px;background:#FF4040;border:2px solid #080C1C;border-radius:50%;box-shadow:0 0 7px rgba(255,64,64,.9);animation:blip 1.4s infinite;z-index:6}
@@ -115,13 +116,19 @@ button:active{transform:scale(.975)}
 #runTop{display:flex;justify-content:space-between;align-items:flex-start;padding:8px 12px 0}
 #runCur{display:flex;flex-direction:column;gap:3px;text-shadow:0 1px 4px #000,0 0 12px rgba(0,0,0,.8)}
 #hudCash{font:700 21px 'Rajdhani';display:flex;gap:6px;align-items:center;color:#F5FFE8}
-#hudRCoin{font:700 16px 'Rajdhani';display:flex;gap:6px;align-items:center;color:#FFEFC2}
+#hudRCoin{font:700 16px 'Rajdhani';display:flex;gap:6px;align-items:center;color:#FFEFC2;cursor:pointer}
+/* [NEW] taux pièces/min au tap sur le compteur */
+#coinRate{display:none;font:600 11.5px 'Rajdhani';color:var(--mint);text-shadow:0 0 8px rgba(126,240,168,.5)}
+#coinRate.on{display:inline}
 #hudBank{font:600 11.5px 'Rajdhani';display:flex;gap:5px;align-items:center;color:#9FB3C8}
 #hudBank b{color:var(--gold);text-shadow:0 0 8px rgba(255,217,92,.7)}
 #arenaTag{display:none;font:700 10.5px 'Rajdhani';letter-spacing:1px;padding:2px 8px;width:max-content;border-radius:2px;color:#1A0E22;background:var(--gold);box-shadow:0 0 12px rgba(255,217,92,.7)}
 #boostTag{display:none;font:700 10.5px 'Rajdhani';letter-spacing:1px;padding:2px 8px;width:max-content;border-radius:2px;color:#06231A;background:var(--mint);box-shadow:0 0 12px rgba(126,240,168,.6)}
-#btnHam{width:40px;height:40px;border:1px solid #55648F;border-radius:2px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;background:rgba(10,15,34,.7);clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px)}
+#btnHam{width:44px;height:44px;border:1px solid #55648F;border-radius:2px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;background:rgba(10,15,34,.7);clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px)}
 #btnHam i{display:block;width:19px;height:3px;background:#E9EEFC;border-radius:1px;box-shadow:0 0 5px rgba(255,255,255,.5)}
+/* [NEW] bouton pub in-run : visible toutes les 10 min de temps de run */
+#btnAdRun{display:none;width:44px;height:44px;border:1px solid var(--gem);border-radius:2px;background:rgba(26,6,26,.75);align-items:center;justify-content:center;clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px);box-shadow:0 0 12px rgba(240,110,240,.4)}
+#btnAdRun.on{display:flex;animation:blip 1.4s infinite}
 #runBottom{margin-top:auto;flex:none}
 #ctlRow{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:0 12px 5px}
 #ultBtns{display:flex;gap:7px}
@@ -141,7 +148,7 @@ button:active{transform:scale(.975)}
 .hpfill::after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(0,0,0,.14) 0 5px,transparent 5px 11px)}
 .hptxt{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:700 13.5px 'Rajdhani';color:#04241A;text-shadow:0 1px 0 rgba(255,255,255,.35)}
 .waveRow{display:flex;justify-content:space-between;align-items:center;gap:5px}
-#waveNum{font:700 17px 'Rajdhani';letter-spacing:1px;text-shadow:0 0 10px rgba(140,180,255,.5)}
+#waveNum{font:700 17px 'Rajdhani';letter-spacing:1px;text-shadow:0 0 10px rgba(140,180,255,.5);cursor:pointer}
 .enStats{display:flex;flex-direction:column;font:600 11px 'Rajdhani';align-items:flex-end;line-height:1.15}
 .enStats .st{display:flex;align-items:center;gap:3px}
 .wbar{margin-top:3px;height:9px;border:1px solid var(--mint);background:#050D09;overflow:hidden;position:relative;border-radius:2px}
@@ -340,7 +347,7 @@ button:active{transform:scale(.975)}
 .pkBtn small{display:block;font:500 11px 'Rajdhani';color:#AEBBE4;margin-top:2px}
 .pkBtn.top{border-color:var(--red);color:#FFB3B3;background:rgba(28,8,10,.7);box-shadow:0 0 9px rgba(255,92,92,.25)}
 #scrOver{background:rgba(3,5,12,.78);z-index:20}
-#goCard{margin:auto;width:min(340px,92%);background:linear-gradient(180deg,#121A38 0%,#0A0F22 100%);border:1px solid var(--amber);box-shadow:0 0 34px rgba(255,179,71,.3),inset 0 0 30px rgba(255,179,71,.05);border-radius:2px;padding:16px 14px;text-align:center;display:flex;flex-direction:column;gap:8px;clip-path:polygon(16px 0,100% 0,100% calc(100% - 16px),calc(100% - 16px) 100%,0 100%,0 16px);position:relative}
+#goCard{margin:auto;width:min(340px,92%);background:linear-gradient(180deg,#121A38 0%,#0A0F22 100%);border:1px solid var(--amber);box-shadow:0 0 34px rgba(255,179,71,.3),inset 0 0 30px rgba(255,179,71,.05);border-radius:2px;padding:16px 14px;text-align:center;display:flex;flex-direction:column;gap:8px;clip-path:polygon(16px 0,100% 0,100% calc(100% - 16px),calc(100% - 16px) 100%,0 100%,0 16px);position:relative;overflow:hidden}
 #goCard::before,#goCard::after{content:'';position:absolute;width:18px;height:18px;pointer-events:none}
 #goCard::before{top:0;left:0;border-top:2px solid var(--amber);border-left:2px solid var(--amber);filter:drop-shadow(0 0 5px var(--amber))}
 #goCard::after{bottom:0;right:0;border-bottom:2px solid var(--amber);border-right:2px solid var(--amber);filter:drop-shadow(0 0 5px var(--amber))}
@@ -353,6 +360,11 @@ button:active{transform:scale(.975)}
 #goCoins .big{font:700 17px 'Rajdhani';color:#FFF3DC;display:flex;justify-content:center;align-items:center;gap:6px;margin-top:3px;flex-wrap:wrap;text-shadow:0 0 10px rgba(255,217,92,.6)}
 #goBtns{display:flex;gap:8px;margin-top:10px}
 #goBtns .obtn{flex:1}
+/* [NEW] célébration de record : halo pulsant + confettis */
+#goCard.celebrate{animation:cele 1s ease infinite alternate}
+@keyframes cele{from{box-shadow:0 0 34px rgba(255,179,71,.3),inset 0 0 30px rgba(255,179,71,.05)}to{box-shadow:0 0 64px rgba(255,217,92,.8),inset 0 0 44px rgba(255,217,92,.18)}}
+.cfet{position:absolute;width:8px;height:13px;z-index:5;animation:cfall linear forwards;pointer-events:none;border-radius:1px}
+@keyframes cfall{0%{transform:translateY(-30px) rotate(0);opacity:1}100%{transform:translateY(560px) rotate(720deg);opacity:0}}
 #toasts{position:absolute;bottom:74px;left:0;right:0;display:flex;flex-direction:column;align-items:center;gap:5px;z-index:70;pointer-events:none}
 .toast{background:linear-gradient(180deg,rgba(16,24,48,.96),rgba(9,14,30,.96));border:1px solid var(--line2);border-left:3px solid var(--amber);border-radius:2px;padding:6px 13px;font:600 13px 'Rajdhani';animation:tin 2.6s forwards;max-width:86%;clip-path:polygon(7px 0,100% 0,100% calc(100% - 7px),calc(100% - 7px) 100%,0 100%,0 7px);box-shadow:0 4px 16px rgba(0,0,0,.55)}
 .toast.err{border-color:var(--red);border-left-color:var(--red);color:#FFB3B3;box-shadow:0 0 14px rgba(255,92,92,.3)}
@@ -399,6 +411,14 @@ button:active{transform:scale(.975)}
 #gfOk{width:64%;margin:2px auto 0;font-size:17px;letter-spacing:1px}
 #gfOk.amber{border-color:var(--gold);color:var(--gold);box-shadow:0 0 14px rgba(255,217,92,.5)}
 #gfOk.pink{border-color:#FF6BD8;color:#FF9BE6;box-shadow:0 0 14px rgba(255,107,216,.5)}
+/* [NEW] panneau récap des types du cycle (tap sur CYCLE N) */
+#ovWave{z-index:55}
+.wrow{display:flex;align-items:center;gap:8px;padding:6px 2px;border-bottom:1px solid #131B36;font:600 12px 'Rajdhani';text-align:left;flex-wrap:wrap}
+.wrow:last-child{border-bottom:none}
+.wrow .wdot{flex:none;width:11px;height:11px;border-radius:50%}
+.wrow .wnm{font-weight:700;color:#EFF3FF}
+.wrow .wst{margin-left:auto;text-align:right;color:#AEBBE4;font-size:11px;line-height:1.2}
+.wrow .wtip{flex-basis:100%;font:500 10.5px 'Rajdhani';color:#6E7DAD;padding-left:19px}
 </style>
 </head>
 <body>
@@ -470,6 +490,7 @@ button:active{transform:scale(.975)}
      <span style="color:#6FAAFF;border-color:#6FAAFF">2 ident. = Rare 17%</span>
      <span style="color:#FF4FD8;border-color:#FF4FD8">3 ident. = Épique 3%</span>
     </div>
+    <div id="pityInfo" style="text-align:center;font:600 10.5px 'Rajdhani';color:#AEBBE4;padding:4px 0 0"></div>
     <div class="sectT">ACTIFS</div>
     <div class="sectS" id="slotsCount">0/1</div>
     <div class="slotsRow" id="slotsRow"></div>
@@ -520,12 +541,15 @@ button:active{transform:scale(.975)}
    <div id="runTop">
     <div id="runCur">
      <span id="hudCash"><span data-ic="dollar"></span><span id="cashT">0</span></span>
-     <span id="hudRCoin"><span data-ic="coin"></span><span id="coinT">0</span></span>
+     <span id="hudRCoin" data-ic="coin"><span id="coinT">0</span><span id="coinRate"></span></span>
      <span id="hudBank">BANQUE <b id="bankT">0</b></span>
      <span id="arenaTag">ARÈNE</span>
      <span id="boostTag">CRÉDITS ×2</span>
     </div>
-    <button id="btnHam"><i></i><i></i><i></i></button>
+    <div style="display:flex;gap:7px;align-items:flex-start">
+     <button id="btnAdRun" data-ic="gem"></button>
+     <button id="btnHam"><i></i><i></i><i></i></button>
+    </div>
    </div>
    <div id="runBottom">
     <div id="ctlRow">
@@ -663,6 +687,11 @@ button:active{transform:scale(.975)}
  <div id="slotRes"></div>
  <button class="obtn pri" id="slotOk">FERMER</button>
 </div></div></div>
+<div class="ov" id="ovWave"><div class="ovBoxW"><div class="ovBox" style="text-align:left">
+ <div class="ot" id="ovWaveT">CYCLE</div>
+ <div id="ovWaveList"></div>
+ <button class="obtn pri" id="ovWaveOk">REPRENDRE</button>
+</div></div></div>
 
 <div id="toasts"></div>
 <div id="guideArrow">▼</div>
@@ -798,7 +827,8 @@ function defMeta(){return{
  arena:{week:0,best:0,claimed:false,runs:0},
  ms:{tier:0,c:{},p:{}},
  wk:{wk:0,dm:0,cl:{}},
- bank:{c:0,last:0},gacha:{last:0},
+ bank:{c:0,last:0},
+ gacha:{last:0,pity:0}, /* [NEW] pity épique persistant */
  chain:{kills:0,wave:0,runs:0,ups:0,ad:0,coins:0},
  ach:{c:{}},hist:[],
  cal:{ts:0,st:0},
@@ -826,6 +856,7 @@ try{
   if(!M.tutSeen||typeof M.tutSeen!=='object')M.tutSeen={};
   if(typeof M.atelierGift!=='number')M.atelierGift=0;
   if(typeof M.cardsGift!=='number')M.cardsGift=0;
+  if(typeof M.gacha.pity!=='number'||isNaN(M.gacha.pity))M.gacha.pity=0; /* [NEW] */
   ['boss','ups','evos','wkdm','cores'].forEach(function(s2){if(typeof M.st[s2]!=='number')M.st[s2]=0});
   if(typeof M.lab.slots!=='number')M.lab.slots=1;
   if(!Array.isArray(M.lab.rs))M.lab.rs=M.lab.cur?[{id:M.lab.cur.id,start:M.lab.cur.start,end:M.lab.cur.end}]:[];
@@ -1014,7 +1045,8 @@ var SFX=(function(){
   pull:function(){[392,494,587,784,988].forEach(function(f,i){setTimeout(function(){tone(f,f,.16,'triangle',.08)},i*70)})},
   reelTick:function(){if(!th('rt',26)){tone(1500,850,.03,'square',.045);noise(.02,.03,4000)}},
   reelStop:function(){tone(300,300,.08,'square',.09);setTimeout(function(){tone(450,450,.1,'square',.07)},70)},
-  err:function(){tone(190,135,.1,'square',.08)}};
+  err:function(){tone(190,135,.1,'square',.08)},
+  pick:function(){tone(760,1140,.09,'sine',.1);setTimeout(function(){tone(1140,1520,.12,'sine',.08)},70)}};
 })();
 function vib(ms){try{if(M.set.vib!==false&&navigator.vibrate)navigator.vibrate(ms)}catch(e){}}
 document.addEventListener('pointerdown',function(e){
@@ -1074,6 +1106,7 @@ function addCoins(n,skim){
  n=Math.floor(n);
  M.coins+=n;M.st.coins+=n;
  if(skim)M.bank.c=Math.min(2000,M.bank.c+Math.floor(n*.08));
+ if(R&&R.logCoin&&skim)R.logCoin.push(Date.now()); /* [NEW] suivi pièces/min */
  dirProg('coins',n);
 }
 function addCores(n){M.cores+=n;M.st.cores=(M.st.cores||0)+n;}
@@ -1087,6 +1120,22 @@ function tblInterp(tbl,n){
   }
  }
  return tbl[tbl.length-1][1];
+}
+/* [NEW] célébration de record : confettis DOM dans la carte de fin */
+function confetti(card){
+ var cols=['#FFB347','#FFD95C','#7EF0A8','#F06EF0','#6FAAFF','#FFFFFF'];
+ for(var i=0;i<26;i++){
+  var e=document.createElement('span');
+  e.className='cfet';
+  e.style.left=rnd(4,96)+'%';
+  e.style.top=rnd(-4,10)+'%';
+  e.style.background=cols[irnd(0,cols.length-1)];
+  e.style.animationDuration=rnd(1.1,2.1)+'s';
+  e.style.animationDelay=rnd(0,.5)+'s';
+  e.style.transform='rotate('+rnd(0,360)+'deg)';
+  card.appendChild(e);
+  setTimeout(function(x){return function(){x.remove()}}(e),2800);
+ }
 }
 
 /* ============ économie ============ */
@@ -1377,10 +1426,23 @@ function enemyCash(w){
 function waveDuration(w){return 16+1.5*(w-1)}
 function waveBaseCount(w){return Math.min(120,17+3*(w-1))}
 var CATN=['MODULES OFFENSIFS','MODULES DÉFENSIFS','MODULES UTILITAIRES'];
+/* [NEW] pool de types débloqués par vague — utilisé par startWave + panneau CYCLE */
+var WAVEPOOL=[
+ ['normal',10,1],['fast',4,6],['tank',3,8],['ranged',3,10],
+ ['prot',2,14],['scatter',2,18],['vamp',2,22],['ray',2,26],
+ ['stealth',2,30],['sab',1,38],['cmd',1,44],['ovc',1,50]
+];
+function wavePoolFor(w,oh){
+ var pool=[],i;
+ for(i=0;i<WAVEPOOL.length;i++){
+  var e=WAVEPOOL[i];
+  if(w>=e[2])pool.push([e[0],(oh&&(e[0]==='sab'||e[0]==='cmd'||e[0]==='ovc'))?3:e[1]]);
+ }
+ return pool;
+}
 
 /* =====================================================================
    ATELIER PERMANENT — 48 améliorations, relevés vérifiés 🟢
-   Base · progression · max · déblocage · prix non linéaires
 ===================================================================== */
 var UDEF=[
  {id:'dmg',cat:0,n:'Dégâts',b:3,cap:6000},
@@ -1434,6 +1496,9 @@ var UDEF=[
  {id:'ehS',cat:2,n:'Saut niveaux PV enn.',b:0,cap:699,lk:'eaS'}
 ];
 var UBY={};UDEF.forEach(function(u){UBY[u.id]=u});
+/* [FIX] cascade de déblocage : un chaînage lk s'ouvre dès que le parent atteint NIV 1.
+   Répare les 18 upgrades morts (toute la chaîne defA→lmR, cashw→coinb, freeU/intw, recM/pkC) */
+function lkOpen(k){return (M.ws[k]||0)>0||!!M.wsU[k]}
 var WSM=1.035;
 /* [WIKI] Prix non linéaires — points vérifiés, interpolation log entre niveaux */
 var WSC={
@@ -1560,11 +1625,26 @@ function runStep(id){
   case 'rfD':return .5;case 'scM':return .5;case 'raM':return .1;case 'ls':return .005;
   case 'recA':return 5;case 'cashb':return .05;case 'coinb':return .05;case 'cashw':return 4;
   case 'eaS':return .05;case 'ehS':return .05;
+  /* [FIX] pas manquants (avant: default 1 → 1 niveau de chance en run = +100 %) */
+  case 'mshC':return .005;case 'mshT':return 1;case 'rfC':return .004;
+  case 'bsC':return .008;case 'bsT':return 1;case 'bsR':return .3;
+  case 'scC':return .002;case 'raC':return .001;
+  case 'defA':return 1; /* intercepté dans runAdd (courbe atelier) */
+  case 'thorns':return .01;
+  case 'kbC':return .01;case 'kbF':return .142;case 'orbS':return .15;case 'orbN':return 1;
+  case 'swS':return .05;case 'swF':return 1;
+  case 'lmC':return .006;case 'lmD':return 10;case 'lmR':return .02;
+  case 'dd':return .004;case 'wH':return .1;case 'wR':return 4;
+  case 'ckl':return .01;case 'coinw':return 1;
+  case 'freeA':return .005;case 'freeD':return .005;case 'freeU':return .005;
+  case 'intw':return .06;case 'recM':return .031;case 'pkC':return .004;
+  case 'regen':return 1; /* intercepté dans runAdd */
   default:return 1;
  }
 }
 function runAdd(id,l){
  if(id==='regen')return regenAdd(l);
+ if(id==='defA')return l+0.091*l*l; /* [FIX] cohérence atelier/run (courbe wsAdd) */
  return runStep(id)*l;
 }
 /* coûts in-game — relevés utilisateur vérifiés 🟢 */
@@ -1672,7 +1752,7 @@ var EDEF={
  tank:{c:'#A87FFF',sol:'cube',r:15,hp:5,atk:1.5,sp:.45,cash:4,coin:4,ax:.5,ay:.8,nm:'Tank',tip:'Blindé, très lent'},
  ranged:{c:'#FF62DC',sol:'octa',r:9,hp:.5,atk:1,sp:.9,cash:2,coin:2,ax:.9,ay:1.3,rng:1,nm:'Tireur',tip:'Tire à distance'},
  boss:{c:'#FF4D4D',sol:'ico',r:24,hp:20,atk:1,sp:.3,cash:25,coin:5,ax:.35,ay:.55,boss:1,nm:'Gardien',tip:'Lâche gemmes & noyaux'},
- prot:{c:'#C4D3E3',sol:'octa',r:13,hp:10,atk:1,sp:.7,cash:3,coin:3,ax:.7,ay:1,shield:1,nm:'Protecteur',tip:'Bouclier : bloque les tirs'},
+ prot:{c:'#C4D3E3',sol:'octa',r:13,hp:10,atk:1,sp:.7,cash:3,coin:3,ax:.7,ay:1,shield:1,nm:'Protecteur',tip:'Bouclier personnel destructible'},
  vamp:{c:'#C13A6B',sol:'octa',r:10,hp:2,atk:0,sp:1,cash:3,coin:4,ax:1.2,ay:1.8,vamp:1,nm:'Vampire',tip:'Vole ta régénération'},
  ray:{c:'#7DE3FF',sol:'tetra',r:9,hp:1,atk:1,sp:1,cash:2,coin:4,ax:1.4,ay:2,rng:1,ray:1,nm:'Rayon',tip:'Tir chargé puissant'},
  scatter:{c:'#FFAC52',sol:'octa',r:11,hp:2,atk:1,sp:1,cash:2,coin:4,ax:1.1,ay:1.7,splode:1,nm:'Dispersant',tip:'Se divise en Fragments'},
@@ -2296,7 +2376,7 @@ function renderWs(){
  for(i=0;i<list.length;i++){
   (function(u){
    var b;
-   if(u.lk&&!M.wsU[u.lk]){
+   if(u.lk&&!lkOpen(u.lk)){ /* [FIX] cascade NIV 1 (avant: !M.wsU[u.lk]) */
     b=mkUp(u,'','');
     b.classList.add('span2');
     b.querySelector('.lc').innerHTML='<span class="nm">'+u.n+'</span><span class="lv">Se débloque dans cette catégorie</span>';
@@ -2570,6 +2650,9 @@ function showSlotResults(results,best){
 }
  $('slotOk').addEventListener('click',function(){$('ovSlot').classList.remove('on')});
 function rollRarity(){
+ /* [NEW] pity épique : garanti au 150e tirage sans épique */
+ M.gacha.pity=(M.gacha.pity||0)+1;
+ if(M.gacha.pity>=150){M.gacha.pity=0;return 2}
  var r=rnd(100),i,acc=0;
  for(i=0;i<3;i++){acc+=RARCHANCE[i];if(r<acc)return i}
  return 0;
@@ -2591,6 +2674,7 @@ function showPull(c,extra,extraTxt){
  $('ovPull').classList.add('on');
  card.classList.remove('pop');void card.offsetWidth;card.classList.add('pop');
  SFX.pull();
+ if(c.r===2)vib([30,40,30,40,60]); /* [NEW] haptique marquée sur épique */
 }
  $('pullOk').addEventListener('click',function(){$('ovPull').classList.remove('on')});
  $('buyC1').addEventListener('click',function(){
@@ -2607,6 +2691,7 @@ function showPull(c,extra,extraTxt){
 /* ============ bibliothèque ============ */
 function renderCards(){
  normalizeCards();
+ $('pityInfo').textContent='Pity épique : '+Math.min(M.gacha.pity||0,149)+'/150'; /* [NEW] */
  var owned=M.cards.eq.filter(function(x){return x}).length;
  $('slotsCount').textContent=owned+'/'+M.slots;
  var sr=$('slotsRow');sr.innerHTML='';
@@ -2915,7 +3000,6 @@ function renderStore(){
  }
  $('stOffer').addEventListener('click',function(){toast('Offerwall : à la publication')});
 }
-
 /* ============ RUN ============ */
 var cv=$('cv'),ctx=cv.getContext('2d');
 var VIEW={w:400,h:400,fh:300,sc:1,ox:200,oy:200,dpr:1};
@@ -3005,6 +3089,21 @@ cv.addEventListener('pointerdown',function(e){
  var rect=cv.getBoundingClientRect();
  var wx=(e.clientX-rect.left-VIEW.ox)/VIEW.sc+200;
  var wy=(e.clientY-rect.top-VIEW.oy)/VIEW.sc+200;
+ /* [NEW] Bob : collecte au tap (prioritaire sur la sélection d'ennemi) */
+ if(R.bob&&R.bob.life>0&&R.bobGot<10){
+  var br=(R.s?R.s.range:90)*.6;
+  var bx=200+Math.cos(R.bob.a)*br,by=200+Math.sin(R.bob.a)*br;
+  if(Math.hypot(wx-bx,wy-by)<26){
+   R.bobGot++;
+   M.gems+=2;R.runGems+=2;
+   burst(bx,by,14,'#F06EF0');
+   R.floats.push({x:bx,y:by-14,t:1.2,txt:'+2 GEMMES',gem:true});
+   SFX.pick();vib(20);
+   R.bob.life=0;R.bob.resp=75;
+   save();updateCur();
+   return;
+  }
+ }
  var best=null,bd=24;
  for(var i=0;i<R.enemies.length;i++){
   var en=R.enemies[i];
@@ -3046,11 +3145,16 @@ function spawnEnemy(type,px,py){
    if(!cm.dead&&cm.d.cmd&&Math.hypot(cm.x-x,cm.y-y)<90){hp*=1.4;break}
   }
  }
- var goldCh=(R.goldGot<10&&!d.boss&&px===undefined)?Math.min(.007,.0004+w*.00006):0;
+ /* [FIX] dorés ×3 le week-end (événement Pluie Dorée) */
+ var goldBase=Math.min(.007,.0004+w*.00006);
+ if(isWeekend())goldBase*=3;
+ var goldCh=(R.goldGot<10&&!d.boss&&px===undefined)?goldBase:0;
  var gold=goldCh>0&&Math.random()<goldCh;
  if(gold)R.goldGot++;
  var en={id:R.nid++,type:type,d:d,x:x,y:y,hp:hp,maxhp:hp,cd:cd,sp:sp,atkT:rnd(.4,1),shootT:(d.ray?30:2.5),ph:0,phT:rnd(1,3),rot:rnd(TAU),dead:false,flash:0,gold:gold,spawnT:.35,sgen:0,ovcHits:0,docile:false,rend:0,dangP:false,
-  born:R.wave,heat:0,mass:0};
+  born:R.wave,heat:0,mass:0,shieldHp:0,shieldMax:0};
+ /* [FIX] Protecteur : bouclier PERSONNEL destructible (2× PV), plus de blocage de zone */
+ if(d.shield){en.shieldHp=hp*2;en.shieldMax=hp*2}
  R.enemies.push(en);
  if(d.boss){R.boss=en}
  return en;
@@ -3073,18 +3177,7 @@ function startWave(){
  R.waveDur=dur;
  R.waveT=0;
  R.queue=[];
- var pool=[['normal',10]];
- if(w>=6)pool.push(['fast',4]);
- if(w>=8)pool.push(['tank',3]);
- if(w>=10)pool.push(['ranged',3]);
- if(w>=14)pool.push(['prot',2]);
- if(w>=18)pool.push(['scatter',2]);
- if(w>=22)pool.push(['vamp',2]);
- if(w>=26)pool.push(['ray',2]);
- if(w>=30)pool.push(['stealth',2]);
- if(w>=38)pool.push(['sab',R.overheat?3:1]);
- if(w>=44)pool.push(['cmd',R.overheat?3:1]);
- if(w>=50)pool.push(['ovc',R.overheat?3:1]);
+ var pool=wavePoolFor(w,R.overheat);
  for(var k=0;k<n;k++){
   var tot=0,j;for(j=0;j<pool.length;j++)tot+=pool[j][1];
   var r=srnd(tot),t='normal';
@@ -3092,6 +3185,15 @@ function startWave(){
   var frac=(k/n);
   var tFrac=frac<.6?(frac/.6)*.55:.55+((frac-.6)/.4)*.45;
   R.queue.push({t:t,at:tFrac*dur*rnd(.9,1.1)});
+ }
+ R.queue.sort(function(a,b){return a.at-b.at});
+ /* [NEW] garantie : au moins 1 de chaque type débloqué apparaît chaque vague */
+ var seen={},gi;
+ for(gi=0;gi<R.queue.length;gi++)seen[R.queue[gi].t]=1;
+ for(gi=0;gi<pool.length;gi++){
+  if(!seen[pool[gi][0]]&&R.queue.length){
+   R.queue[irnd(0,R.queue.length-1)].t=pool[gi][0];
+  }
  }
  R.queue.sort(function(a,b){return a.at-b.at});
  if(R.s.wH>0){
@@ -3120,7 +3222,9 @@ function startRun(tier,resume,arena){
   phase:'intro',intro:1.4,dying:0,dead:false,flash:0,
   interT:0,queue:[],spawnT:.5,s:null,prevBest:M.best[tier]||0,shake:0,
   pk:{qty:{},dmg:1,dmgT:1,hpM:1,cash:1,coin:1,regen:1,def:0,freeP:0,aspd:1,lsM:1,kbM:1,bossHp:1,espd:1,uwDmg:1,perkInt:30},
-  nextPerk:30,slA:0,bm:1,overheat:false,goldGot:0};
+  nextPerk:30,slA:0,bm:1,overheat:false,goldGot:0,
+  /* [NEW] Bob / pub in-run / pièces-min */
+  bob:{a:rnd(TAU),life:0,resp:12},bobGot:0,adNext:600,logCoin:[],rateOn:false};
  if(arena)M.arena.runs++;
  if(!resume&&!arena){
   M.runIdx=(M.runIdx||0)+1;
@@ -3152,6 +3256,8 @@ function startRun(tier,resume,arena){
  $('arenaTag').style.display=arena?'':'none';
  $('boostTag').style.display=R.boost?'':'none';
  $('bmRow').style.display='';
+ $('btnAdRun').classList.remove('on');
+ $('coinRate').classList.remove('on');$('coinRate').textContent='';
  runTab=0;
  buildRunTabs();buildRunGrid();updSpeedUI();updUltBtns();
  showScreen('run');
@@ -3188,7 +3294,7 @@ function buildRunTabs(){
  }
 }
 function ruVisible(u){
- if(u.lk)return !!M.wsU[u.lk];
+ if(u.lk)return lkOpen(u.lk); /* [FIX] cascade NIV 1 */
  return !u.lock||!!M.wsU[u.id];
 }
 function buildRunGrid(){
@@ -3274,6 +3380,42 @@ function updSpeedUI(){
  if(M.spdIdx>0){M.spdIdx--;SFX.buy()}
  else silentPause=true;
  updSpeedUI()});
+
+/* --- [NEW] interactions in-run : pub, pièces/min, panneau CYCLE --- */
+ $('btnAdRun').addEventListener('click',function(){
+ if(!R||!R.active)return;
+ if(R.time<(R.adNext||600)){SFX.err();return}
+ rewardedAd(function(){
+  M.gems+=5;R.runGems+=5;
+  R.adNext=R.time+600;
+  toast('+5 gemmes (transmission)');
+  save();updateCur();
+ });
+});
+ $('hudRCoin').addEventListener('click',function(){
+ if(!R)return;
+ R.rateOn=!R.rateOn;
+ $('coinRate').classList.toggle('on',R.rateOn);
+ if(!R.rateOn)$('coinRate').textContent='';
+});
+function openWavePanel(){
+ if(!R)return;
+ var w=R.wave,pool=wavePoolFor(w,R.overheat),html='';
+ for(var i=0;i<pool.length;i++){
+  var d=EDEF[pool[i][0]];
+  var hp=enHp(w,R.tier)*d.hp,at=enAtk(w,R.tier)*d.atk;
+  html+='<div class="wrow"><span class="wdot" style="background:'+d.c+'"></span>'+
+   '<span class="wnm">'+d.nm+'</span>'+
+   '<span class="wst">PV '+fmt(hp)+' · ATK '+fdec(at,2)+'</span>'+
+   '<span class="wtip">'+d.tip+'</span></div>';
+ }
+ if(R.overheat)html+='<div class="wtip" style="padding:6px 0 0;color:#FF9C9C">SURCHAUFFE : flottes ×1,5 · Saboteurs/Commandants/Surcharges ×3 · sauts de niveau ÷2</div>';
+ $('ovWaveT').textContent='CYCLE '+w+(R.overheat?' — SURCHAUFFE':'')+' — P'+(R.tier+1);
+ $('ovWaveList').innerHTML=html;
+ $('ovWave').classList.add('on');
+}
+ $('waveNum').addEventListener('click',openWavePanel);
+ $('ovWaveOk').addEventListener('click',function(){$('ovWave').classList.remove('on')});
 
 /* --- combat --- */
 function targetable(e){return !e.dead&&!(e.d.phase&&e.ph)}
@@ -3378,7 +3520,7 @@ function hitTower(d,e){
  if(dm>0)R.tower.hp-=dm;
  R.tower.flash=.12;R.shake=.14;vib(25);
  if(R.tower.hp<=0){
-  if(R.s.dd>0&&!R.ddUsed&&Math.random()*100<R.s.dd){
+  if(R.s.dd>0&&!R.ddUsed&&Math.random()<R.s.dd){ /* [FIX] fraction (avant ×100 : 30% affiché = 0,3% réel) */
    R.ddUsed=true;
    R.tower.hp=1;
    R.shocks.push({x:200,y:200,r:24,v:300,t:.6,tmax:.6,c:'#FFD95C',lw:3});
@@ -3398,6 +3540,17 @@ function hitTower(d,e){
 }
 function dmg(e,amount,crit,silent){
  if(!e||e.dead||!targetable(e))return;
+ /* [FIX] Protecteur : le bouclier personnel absorbe d'abord (toutes sources, y compris AoE/orbes/DoT) */
+ if(e.shieldHp>0){
+  e.shieldHp-=amount;
+  e.flash=.06;
+  if(e.shieldHp<=0){
+   e.shieldHp=0;
+   burst(e.x,e.y,10,'#C4D3E3');
+   if(!silent)R.floats.push({x:e.x,y:e.y-e.d.r-10,t:1,txt:'BOUCLIER BRISÉ'});
+  }
+  return;
+ }
  var amt=amount*(1+(e.rend||0));
  e.hp-=amt;e.flash=.08;
  e.heat=Math.min(25,(e.heat||0)+1);
@@ -3518,7 +3671,7 @@ function kill(e,crit){
   if(R.floats.length>60)R.floats.shift();
   R.floats.push({x:e.x,y:e.y-e.d.r-30,t:1.1,txt:'+1 GEMME',gem:true});
  }
- if(R.s.pkC>0&&R.recUsed<3&&Math.random()*100<R.s.pkC){
+ if(R.s.pkC>0&&R.recUsed<3&&Math.random()<R.s.pkC){ /* [FIX] fraction (avant ×100) */
   R.recUsed++;
   var heal=R.tower.maxhp*(R.s.recA/100)*R.s.recM;
   R.tower.hp=Math.min(R.tower.maxhp,R.tower.hp+heal);
@@ -3533,6 +3686,12 @@ function kill(e,crit){
   if(R.wave%50===0)st=3;
   else if(Math.random()<.08)st=1;
   if(st){addCores(st);toast('+'+st+" noyaux d'éveil")}
+  /* [NEW] colis garanti après Gardien : intégrité restaurée */
+  if(!R.dead){
+   R.tower.hp=R.tower.maxhp;
+   R.shocks.push({x:200,y:200,r:20,v:300,t:.6,tmax:.6,c:'#7EF0A8',lw:2.5});
+   R.floats.push({x:200,y:150,t:1.4,txt:'COLIS — INTÉGRITÉ RESTAURÉE',gem:true});
+  }
  }
  if(e.d.splode&&e.sgen<1){
   for(var k=0;k<2;k++){
@@ -3679,7 +3838,6 @@ function showPerkChoice(){
  }
  $('ovPerk').classList.add('on');
 }
-
 function update(dt){
  R.time+=dt;
  if(R.dying>0){
@@ -3711,6 +3869,16 @@ function update(dt){
  if(R.wallDown>0){
   R.wallDown-=dt;
   if(R.wallDown<=0)R.wallHp=R.wallMax;
+ }
+ /* [NEW] Bob : orbite, vie 18s, respawn 75s, cap 10/run */
+ if(R.bob){
+  if(R.bob.life>0){
+   R.bob.life-=dt;R.bob.a+=dt*.8;
+   if(R.bob.life<=0)R.bob.resp=75;
+  }else if(R.bobGot<10){
+   R.bob.resp-=dt;
+   if(R.bob.resp<=0){R.bob.life=18;R.bob.a=rnd(TAU)}
+  }
  }
  R.regenOff=false;
  var vi;
@@ -3749,7 +3917,7 @@ function update(dt){
     var dm=R.s.dmg*dmul*R.pk.dmg*sf*(1+R.s.dpm*dist/3);
     R.bullets.push({x:200+Math.cos(t.ang)*8,y:200+Math.sin(t.ang)*8,tg:tg[i],sp:480,t:1.7,crit:Math.random()<R.s.critc,super:false,dm:dm,bn:0});
    }
-   if(R.s.rfC>0&&Math.random()*100<R.s.rfC)R.rapidT=R.s.rfD;
+   if(R.s.rfC>0&&Math.random()<R.s.rfC)R.rapidT=R.s.rfD; /* [FIX] fraction */
    R.parts.push({x:200+Math.cos(t.ang)*13,y:200+Math.sin(t.ang)*13,vx:0,vy:0,t:.1,tmax:.1,r:3.5,c:P.c2,ball:true});
    t.fireT=R.rapidT>0?.5/(R.s.aspd*R.pk.aspd):1/(R.s.aspd*R.pk.aspd);
   }
@@ -3794,7 +3962,7 @@ function update(dt){
   R.lmT-=dt;
   if(R.lmT<=0){
    R.lmT=.5;
-   if(R.fmines.length<8&&Math.random()*100<R.s.lmC*2){
+   if(R.fmines.length<8&&Math.random()<R.s.lmC*2){ /* [FIX] fraction */
     var ma=rnd(TAU),md=rnd(30,R.s.range*.9);
     R.fmines.push({x:200+Math.cos(ma)*md,y:200+Math.sin(ma)*md,t:12});
    }
@@ -3896,8 +4064,6 @@ function update(dt){
   var early=(R.wave<20?1.6:1);
   var bonus=(25*Math.pow(1.26,R.wave-1)+R.s.cashw)*(1+R.s.cashb)*R.s.cashM*(R.boost?2:1)*R.pk.cash*early;
   R.cash+=bonus;M.st.waves++;
-  ensureArenaWeek();
-  M.wk.waves++;
   var cw=Math.ceil((1+R.s.coinw)*(1+R.s.coinb)*R.s.coinM*TIER_COIN[R.tier]*R.pk.coin);
   addCoins(cw,true);
   R.runCoins+=cw;
@@ -4008,24 +4174,20 @@ function update(dt){
   var tx=et?et.x:(b.lx!==undefined?b.lx:b.x),ty=et?et.y:(b.ly!==undefined?b.ly:b.y);
   if(et){b.lx=et.x;b.ly=et.y}
   var ddx=tx-b.x,ddy=ty-b.y,dd=Math.hypot(ddx,ddy)||1,stp=b.sp*dt;
-  var blocked=false;
-  for(j=0;j<R.enemies.length;j++){
-   var p=R.enemies[j];
-   if(!p.dead&&p.d.shield&&Math.hypot(p.x-b.x,p.y-b.y)<56){blocked=true;break}
-  }
-  if(blocked){b.t=0;burst(b.x,b.y,3,'#B9C8D8');continue}
+  /* [FIX] Protecteur : plus de zone de blocage 56px — le tir principal redevient
+     pleinement opérationnel dès qu'un Protecteur approche (blocage géré dans dmg()) */
   if(dd<=stp){
    if(et&&targetable(et)){
-    if(b.crit&&!b.super&&R.s.scC>0&&Math.random()*100<R.s.scC)b.super=true;
+    if(b.crit&&!b.super&&R.s.scC>0&&Math.random()<R.s.scC)b.super=true; /* [FIX] fraction */
     var fdm=b.dm*(b.crit?R.s.critf:1)*(b.super?R.s.scM:1);
-    if(R.s.raC>0&&Math.random()*100<R.s.raC)et.rend=Math.max(et.rend||0,R.s.raM);
-    if(R.s.kbC>0&&Math.random()*100<R.s.kbC&&!et.d.boss){
+    if(R.s.raC>0&&Math.random()<R.s.raC)et.rend=Math.max(et.rend||0,R.s.raM); /* [FIX] fraction */
+    if(R.s.kbC>0&&Math.random()<R.s.kbC&&!et.d.boss){ /* [FIX] fraction */
      var kd=Math.hypot(et.x-200,et.y-200)||1;
      var kf=14*R.s.kbF*R.pk.kbM/(1+(et.mass||0));
      et.x+=(et.x-200)/kd*kf;et.y+=(et.y-200)/kd*kf;
     }
     dmg(et,fdm,b.crit);
-    if(R.s.bsC>0&&b.bn<R.s.bsT&&Math.random()*100<R.s.bsC){
+    if(R.s.bsC>0&&b.bn<R.s.bsT&&Math.random()<R.s.bsC){ /* [FIX] fraction */
      var nt=nearest(et.x,et.y,90+R.s.bsR*10,et);
      if(nt){
       b.bn++;
@@ -4204,6 +4366,20 @@ function draw(){
     ctx.fillStyle=P.c2;ctx.shadowColor=P.c;ctx.shadowBlur=13;ctx.fill();ctx.shadowBlur=0;
    }
   }
+  /* [NEW] Bob — gemme flottante collectible */
+  if(R.bob&&R.bob.life>0&&R.bobGot<10){
+   var br=s.range*.6;
+   var bx=200+Math.cos(R.bob.a)*br,by=200+Math.sin(R.bob.a)*br;
+   var puls=1+.15*Math.sin(R.time*5);
+   ctx.beginPath();ctx.arc(bx,by,11*puls,0,TAU);
+   ctx.fillStyle='rgba(240,110,240,.16)';ctx.fill();
+   ctx.beginPath();ctx.arc(bx,by,6.5*puls,0,TAU);
+   ctx.fillStyle='#F06EF0';ctx.shadowColor='#F06EF0';ctx.shadowBlur=14;ctx.fill();ctx.shadowBlur=0;
+   ctx.strokeStyle='#F9C4F5';ctx.lineWidth=1;
+   ctx.beginPath();
+   ctx.moveTo(bx,by-6.5*puls);ctx.lineTo(bx+5.6*puls,by);ctx.lineTo(bx,by+6.5*puls);ctx.lineTo(bx-5.6*puls,by);
+   ctx.closePath();ctx.stroke();
+  }
   var glow=R.enemies.length<30;
   for(i=0;i<R.enemies.length;i++){
    e=R.enemies[i];
@@ -4222,9 +4398,12 @@ function draw(){
     ctx.beginPath();ctx.arc(e.x,e.y,d.r+6,0,TAU);
     ctx.strokeStyle='rgba(255,217,92,.5)';ctx.lineWidth=1.2;ctx.stroke();
    }
-   if(d.shield){
+   /* [FIX] halo du Protecteur : opacité selon bouclier restant (destructible) */
+   if(d.shield&&e.shieldMax>0&&e.shieldHp>0){
+    var sa=clamp(e.shieldHp/e.shieldMax,0,1);
     poly(e.x,e.y,52,6,R.time*.5);
-    ctx.strokeStyle='rgba(195,210,227,.5)';ctx.lineWidth=1.2;
+    ctx.strokeStyle='rgba(195,210,227,'+(.18+.42*sa)+')';
+    ctx.lineWidth=1.2+1.4*sa;
     ctx.setLineDash([6,6]);ctx.stroke();ctx.setLineDash([]);
    }
    if(d.cmd){
@@ -4471,25 +4650,29 @@ function draw(){
    for(i=0;i<R.enemies.length;i++)if(R.enemies[i].id===R.info.id){ie=R.enemies[i];break}
    if(ie){
     var bw2=126,bh2=42;
-    var bx=clamp(ie.x-bw2/2,4,396-bw2),by=ie.y-ie.d.r-54;
-    if(by<4)by=ie.y+ie.d.r+8;
+    var bx2=clamp(ie.x-bw2/2,4,396-bw2),by2=ie.y-ie.d.r-54;
+    if(by2<4)by2=ie.y+ie.d.r+8;
     ctx.globalAlpha=.94;
     ctx.fillStyle='rgba(8,12,28,.95)';
     ctx.strokeStyle=hxa(ie.gold?'#FFB347':ie.d.c,.9);
     ctx.lineWidth=1.5;
-    ctx.fillRect(bx,by,bw2,bh2);
-    ctx.strokeRect(bx,by,bw2,bh2);
+    ctx.fillRect(bx2,by2,bw2,bh2);
+    ctx.strokeRect(bx2,by2,bw2,bh2);
     ctx.globalAlpha=1;
     ctx.textAlign='center';
     ctx.font="700 12px 'Rajdhani'";
     ctx.fillStyle=ie.gold?'#FFC069':ie.d.c;
-    ctx.fillText(ie.d.nm+(ie.gold?' DORÉ':''),bx+bw2/2,by+13);
+    ctx.fillText(ie.d.nm+(ie.gold?' DORÉ':''),bx2+bw2/2,by2+13);
     ctx.font="600 10.5px 'Rajdhani'";
     ctx.fillStyle='#E9EEFC';
-    ctx.fillText('PV '+fmt(ie.hp)+'/'+fmt(ie.maxhp)+' · ATK '+fdec(ie.cd,1),bx+bw2/2,by+26);
+    /* [FIX] tooltip : bouclier du Protecteur visible */
+    var line2=(ie.shieldMax>0&&ie.shieldHp>0)
+     ?('PV '+fmt(ie.hp)+' · BOUCLIER '+fmt(ie.shieldHp))
+     :('PV '+fmt(ie.hp)+'/'+fmt(ie.maxhp)+' · ATK '+fdec(ie.cd,1));
+    ctx.fillText(line2,bx2+bw2/2,by2+26);
     ctx.font="500 9.5px 'Rajdhani'";
     ctx.fillStyle='#93A5D8';
-    ctx.fillText(ie.d.tip,bx+bw2/2,by+37);
+    ctx.fillText(ie.d.tip,bx2+bw2/2,by2+37);
    }else R.info=null;
   }
   ctx.globalAlpha=1;
@@ -4526,13 +4709,23 @@ function updateHud(force){
  $('eHp').textContent=fdec(enHp(R.wave,R.tier),2);
  var wp=R.waveDur>0?clamp(R.waveT/R.waveDur,0,1):0;
  $('waveFill').style.transform='scaleX('+wp+')';
+ /* [NEW] pub in-run : visible toutes les 10 min de temps de run */
+ $('btnAdRun').classList.toggle('on',R.active&&!R.dead&&R.time>=(R.adNext||600));
+ /* [NEW] pièces/min (fenêtre glissante 60s) */
+ if(R.rateOn){
+  var now2=Date.now();
+  while(R.logCoin.length&&now2-R.logCoin[0]>60000)R.logCoin.shift();
+  var sum=0,li;
+  for(li=0;li<R.logCoin.length;li++)sum+=R.logCoin[li];
+  $('coinRate').textContent='+'+fmt(sum)+'/min';
+ }
  refreshGrid();
  updUltCd();
 }
 
 var DT=1/60,lastT=performance.now()/1000,acc=0;
 function anyOv(){
- return $('ovPause').classList.contains('on')||$('ovSet').classList.contains('on')||$('ovCf').classList.contains('on')||$('ovAd').classList.contains('on')||$('ovPull').classList.contains('on')||$('ovSlot').classList.contains('on')||$('ovPod').classList.contains('on')||$('ovCal').classList.contains('on')||$('ovPerk').classList.contains('on')||$('ovGift').classList.contains('on');
+ return $('ovPause').classList.contains('on')||$('ovSet').classList.contains('on')||$('ovCf').classList.contains('on')||$('ovAd').classList.contains('on')||$('ovPull').classList.contains('on')||$('ovSlot').classList.contains('on')||$('ovPod').classList.contains('on')||$('ovCal').classList.contains('on')||$('ovPerk').classList.contains('on')||$('ovGift').classList.contains('on')||$('ovWave').classList.contains('on'); /* [NEW] panneau CYCLE = pause */
 }
 function loop(nowMs){
  requestAnimationFrame(loop);
@@ -4564,6 +4757,13 @@ function showOverScreen(rec,tier,wave,kills,rc,rcash,time,best,arenaScoreV,arena
   '<div style="font:500 11px Rajdhani;color:#9FB3C8;margin-top:2px">≈ '+fmt(vpm)+' pièces/min</div>';
  $('bmRow').style.display='none';
  showScreen('over');
+ /* [NEW] célébration de record : confettis + halo pulsant + haptique marquée */
+ if(rec){
+  $('goCard').classList.add('celebrate');
+  confetti($('goCard'));
+  vib([40,60,40,60,120]);
+  setTimeout(function(){$('goCard').classList.remove('celebrate')},4000);
+ }else $('goCard').classList.remove('celebrate');
 }
 var lastKiller='les hostiles',lastRunData=null;
 function collectEnd(){
@@ -4732,6 +4932,7 @@ function renderCal(){
  $('pQuit').addEventListener('click',function(){
  $('ovPause').classList.remove('on');paused=false;silentPause=false;
  R=null;M.resume=null;save();SRND=null;
+ $('btnAdRun').classList.remove('on');
  showScreen('battle');
 });
  $('pAband').addEventListener('click',function(){
