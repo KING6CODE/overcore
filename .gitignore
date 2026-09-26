@@ -6,3 +6,10 @@ build/
 captures/
 *.apk
 *.aab
+
+android/.gradle/
+android/local.properties
+android/keystore.properties
+android/app/build/
+outputs/*.jks
+outputs/*signing*.txt
